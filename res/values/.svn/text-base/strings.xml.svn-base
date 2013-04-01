@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <string name="hello">Enter Your Contact here</string><string name="app_name">Geo Call Manager</string>
+     <string name="latitude">Enter Geo Positoin:Latitude</string>
+		<string name="longitude">Enter a Geo Profile</string>
+		<string name="guid1"> Select a contact you want to block</string>
+		<string name="guid2"> Select the geo profile (place) where you want to block</string>
+		<string name="guid3"> Enter a name for your new Geo Profile</string>
+		<string name="guid4"> Enter the Latitude of your Geo Place</string>
+		<string name="guid5"> Enter the Longtitude of your Geo Place</string>
+		
+		<string name="button1">Block Contact</string>
+		<string name="button2">Add Geo Profile</string>
+		<string name="button3">Edit Geo Profile</string>
+		<string name="button4">Manage Calls</string>
+		<string name="UI2button1">Save Profile</string>
+		<string name="UI2button2">Back</string>
+		<string name="addProf">Add Geo Profile</string>
+		<string name="ProfName">Enter Your Geo Profile Name</string>
+		<string name="Lattitude">Enter Latitude</string>
+		<string name="Longtitude">Enter Longtitude </string>
+		
+		<string name="editProf">Edit Geo Profile</string>
+		<string name="Lable1">Enter a Geo Profile</string>
+		<string name="guid6">Enter the Name of the Geo Profile You Want to Edit</string>
+		<string name="guid7">Enter New Latitude</string>
+		<string name="guid8">Enter New Longtitude</string>
+		<string name="editLattitude">Latitude</string>
+		<string name="editLongtitude">Longtitude</string>
+
+		<string name="UI3Button4">Edit</string>
+		<string name="UI3Button1">Save</string>
+		<string name="UI3Button2">Delete Profile</string>
+		<string name="UI3Button3">Back</string>
+		
+</resources>
+

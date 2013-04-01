@@ -1,0 +1,368 @@
+package dataLayer;
+
+import java.util.ArrayList;
+
+import android.R.string;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+	static final String dbName = "GeoProfile";
+	static private ArrayList<String> Profiles;
+
+	static final String profileTable = "Profile";	//Declaring constant for Database
+	static final String profileName = "Name";
+	static final String latitude = "latitude";
+	static final String longtitude = "longtitude";
+
+	static final String contactTable = "contact_profile";	//Declaring constants for Database
+	static final String contactName = "contact_name";
+	static final String profileName_blocked = "Profile";
+
+	static final String viewEmps = "ViewEmps";
+
+	public DatabaseHelper(Context context) {
+		super(context, dbName, null, 1);
+		
+	}
+/**
+ * when the first initiation, the database creates if it does not exist
+ */
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+
+		// TODO Auto-generated method stub
+		db.execSQL("CREATE TABLE " + profileTable + " (" + profileName
+				+ " TEXT PRIMARY KEY , " + latitude + " Real, " + longtitude
+				+ " Real )");
+		db.execSQL("CREATE TABLE " + contactTable + " ( " + contactName +"  , " 
+				+ profileName_blocked + " TEXT,  PRIMARY KEY(contact_name,Profile) )");
+
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+
+		db.execSQL("DROP TABLE IF EXISTS " + profileTable); //On update
+		db.execSQL("DROP TABLE IF EXISTS " + contactTable);
+
+		onCreate(db);
+
+	}
+	
+	/**
+	 * Add Contatcs to the database which are to be blocked
+	 * @param name
+	 * @param profile_name
+	 * @return true if adding data to the database successes
+	 */
+
+	public boolean addBlockContact(String name, String profile_name) {
+		try {
+			long result;
+			SQLiteDatabase db = getWritableDatabase();
+			ContentValues cv = new ContentValues();
+			cv.put(contactName, name);
+			cv.put(profileName_blocked, profile_name);
+			result =db.insert(contactTable, null, cv);
+			db.close();
+			if(result==-1){
+				return false;
+			}else{
+				return true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * Quary all the profiles from the data base and pass the cursor
+	 * @return A cursor with All Profiles in Database
+	 */
+	public Cursor getAllProfiles() {
+		SQLiteDatabase db = getReadableDatabase();
+		String[] columns = new String[] { profileName, latitude, longtitude };
+		Cursor c = db.query(profileTable, columns, null, null, null, null, null);
+		return c;
+
+	}
+
+	/**
+	 * Converts the data in the given cursor to the requested colomn type.
+	 * @param cursor from the database quary
+	 * @param ColomnName
+	 * @return a string array with names of relevent colomn
+	 */
+	public String[] cursorToStringArray(Cursor cursor, String ColomnName) {
+
+		ArrayList<String> TempArrayList = new ArrayList<String>();
+
+		if (cursor.moveToFirst()) {
+			do {
+				String data = cursor.getString(cursor
+						.getColumnIndex(ColomnName));
+				TempArrayList.add(data);
+				//System.out.println("taken from database :" + data);
+
+				// do what ever you want here
+			} while (cursor.moveToNext());
+		}
+
+		//cursor.close();
+		String[] tempStringArray = new String[TempArrayList.size()];
+		int temp = 0;
+		while (!TempArrayList.isEmpty()) {
+			tempStringArray[temp] = TempArrayList.remove(0);
+			temp++;
+		}
+		return tempStringArray;
+
+	}
+	/**
+	 * converts a cursor to a Double array
+	 * @param cursor 
+	 * returned from the database quary
+	 * @param ColomnName
+	 * colomn name whcih wants to be arrayed
+	 * @return
+	 * double array of given colomn
+	 */
+	
+	public Double[] cursorToDoubleArray(Cursor cursor, String ColomnName) {
+
+		ArrayList<Double> TempArrayList = new ArrayList<Double>();
+
+		if (cursor.moveToFirst()) {
+			do {
+				Double data = cursor.getDouble(cursor
+						.getColumnIndex(ColomnName));
+				TempArrayList.add(data);
+				System.out.println("taken from database :" + data);
+
+				// do what ever you want here
+			} while (cursor.moveToNext());
+		}
+
+		//cursor.close();
+		Double[] tempDoubleArray = new Double[TempArrayList.size()];
+		int temp = 0;
+		while (!TempArrayList.isEmpty()) {
+			tempDoubleArray[temp] = TempArrayList.remove(0);
+			temp++;
+		}
+		return tempDoubleArray;
+
+	}
+ /**
+  * Add geo Profile information to the database
+  * 
+  * @param name
+  * @param lattitudeValue
+  * @param longtitudeValue
+  * @return if an error occured during the adding false will be retruned
+  * if successfully added true will be returned
+  */
+	public boolean addGeoProfile(String name, Double lattitudeValue,
+			Double longtitudeValue) {
+		try {
+			SQLiteDatabase db = getWritableDatabase();
+			ContentValues cv = new ContentValues();
+			long result;
+			cv.put(profileName, name);
+			cv.put(longtitude, longtitudeValue);
+			cv.put(latitude, lattitudeValue);
+			result = db.insert(profileTable, null, cv);
+			db.close();
+			if (result != -1) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
+	 * Get the relevent on the given profile name
+	 * @param ProfileName
+	 * @return
+	 * an array of Strings whcih inculeds the relevent data about profile
+	 */
+	
+	public String[] getData(String ProfileName) {
+		String[] names = new String[10];
+		int i = 0;
+		SQLiteDatabase db = getReadableDatabase();
+		String[] columns = new String[] { profileName, latitude, longtitude };
+		Cursor cursor = db.query(profileTable, columns, "Name like "+"'"+ProfileName+"'", null, null, null, null);
+		
+			String name[]=cursorToStringArray(cursor, profileName);
+			Double lat[]=cursorToDoubleArray(cursor, latitude);
+			Double lon[]=cursorToDoubleArray(cursor, longtitude);
+			String temp[]= new String[3];
+			temp[0]=name[0];
+			temp[1]=lat[0].toString();
+			temp[2]=lon[0].toString();
+			return temp;
+		
+		
+		
+		
+	}
+	
+	/**
+	 * checks whether the given string is in the given array
+	 * @param array
+	 * an array of Strings
+	 * @param compare
+	 * to be searched in the given array
+	 * @return
+	 * true if the geven string is found in the given given array
+	 */
+	public boolean isThereString(String[] array, String compare){
+		boolean isThere=false;
+		
+		for(int k=0;k<array.length;k++){
+			if(compare.equalsIgnoreCase(array[k])){
+				isThere= true;
+				break;
+			}
+		}
+		return isThere;
+	}
+	
+	public boolean deleteProfile(String profName){
+		SQLiteDatabase db = getWritableDatabase();
+		String[] args= {profName};
+		int result =db.delete(profileTable, "Name=?", args);
+		if (result==0){
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+
+	public boolean updateProfile(String profName, Double lattitude, Double longtitude){
+		System.out.println("Updating is running");
+		SQLiteDatabase db= getWritableDatabase();
+		String[] args= {profName};
+		ContentValues conVals= new ContentValues();
+		conVals.put(DatabaseHelper.longtitude, lattitude);
+		conVals.put(DatabaseHelper.latitude, longtitude);
+		int result=db.update(profileTable, conVals, "Name=?", args);
+		if(result==0){
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+	
+	public boolean deleteFromContactTable(String profName){
+		SQLiteDatabase db = getWritableDatabase();
+		String[] args= {profName};
+		int result =db.delete(contactTable, "Profile=?", args);
+		if (result==0){
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public String[] getProfNameFromCordinates(Double latitude, Double longtitude){
+		
+		double leftLatLimit,rightLatLimit,LeftLongLimit,rightLongLimit;
+		leftLatLimit=latitude-1;
+		rightLatLimit=latitude+1;
+		LeftLongLimit=longtitude-1;
+		rightLongLimit=longtitude+1;
+		SQLiteDatabase db = getReadableDatabase();
+		String[] columns = new String[] { profileName };
+		Cursor cursor = db.query(profileTable, columns, " latitude BETWEEN "+leftLatLimit+" AND "+rightLatLimit+" AND longtitude BETWEEN "+LeftLongLimit+" AND "+rightLongLimit, null, null, null, null);
+		String name[]=cursorToStringArray(cursor, profileName);
+		for(int i=0;i<name.length;i++){
+			System.out.println("for is running");
+			System.out.println("new result is :"+name[i]);
+		}
+		return name;
+		
+	}
+	
+	public ArrayList<String> getBlockedSet(String[] profiles) {
+		ArrayList<String> blockedProfiles= new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		String[] columns = new String[] { contactName };
+		
+		for (int i = 0; i < profiles.length; i++) {
+
+			Cursor cursor = db.query(contactTable, columns, "Profile like " + "'"
+					+ profiles[i] + "'", null, null, null, null);
+			
+			if (cursor.moveToFirst()) {
+				do {
+					String data = cursor.getString(cursor
+							.getColumnIndex(contactName));
+					blockedProfiles.add(data);
+					// do what ever you want here
+				} while (cursor.moveToNext());
+			}
+
+			
+		}
+		return blockedProfiles;
+	}
+	
+	public String[] listToArray(ArrayList<String> arrayList){
+		
+		String temp[]= new String[arrayList.size()];
+		int count=0;
+		while(!arrayList.isEmpty()){
+			temp[count]=arrayList.remove(0);
+			count++;
+		}
+		return temp;
+	}
+	
+	public ArrayList<String> cursorToArrayList(Cursor cursor,String ColomnName){
+		ArrayList<String> temp;
+		if(Profiles==null){
+			 temp= new ArrayList<String>();
+		}else{
+			 temp=Profiles;
+		}
+		
+		
+		if (cursor.moveToFirst()) {
+			do {
+				String data = cursor.getString(cursor
+						.getColumnIndex(ColomnName));
+				temp.add(data);
+				System.out.println("taken from database :" + data);
+
+				// do what ever you want here
+			} while (cursor.moveToNext());
+		}
+		if(Profiles==null){
+			Profiles= temp;
+		}
+		
+		return Profiles;
+		
+	}
+	public ArrayList<String> getProfiles(){
+		return Profiles;
+	}
+}

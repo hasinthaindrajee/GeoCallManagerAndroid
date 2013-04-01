@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/call"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_View"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            
+            android:text="@string/hello" />
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_country"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tv_View"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guid1"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_View"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/longitude" />
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_Profile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tv_View"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guid2"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="475px"
+            android:layout_height="40dp"
+            android:layout_marginTop="65dp"
+            android:text="@string/button1"
+            android:textColor="#ffcccccc" />
+        <Button
+            android:id="@+id/blockHereButton"
+            android:layout_width="475px"
+            android:layout_height="40dp"
+            android:text="@string/blockHereButton"
+            android:textColor="#ffcccccc" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="475px"
+            android:layout_height="40dp"
+            android:text="@string/button2"
+            android:textColor="#ffcccccc" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="475px"
+            android:layout_height="40dp"
+            android:layout_x="50px"
+            android:layout_y="5550px"
+            android:text="@string/button4"
+            android:textColor="#ffcccccc" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="475px"
+            android:layout_height="40dp"
+            android:layout_x="50px"
+            android:layout_y="5550px"
+            android:text="@string/button3"
+            android:textColor="#ffcccccc" />
+    </LinearLayout>
+
+</ScrollView>

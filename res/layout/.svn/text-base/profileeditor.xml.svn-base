@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:background="@drawable/call"
+		android:orientation="vertical">
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/editProf"
+			android:id="@+id/tv_View2" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/Lable1"
+			android:id="@+id/tv_View" />
+
+
+		<AutoCompleteTextView android:id="@+id/autocomplete_Prof_name"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid6"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+		<Button android:id="@+id/Find" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI3Button4"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc" />
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/editLattitude"
+			android:id="@+id/tv_View" android:layout_marginTop="10dp" />
+
+
+		<EditText android:id="@+id/Lattitude" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid7"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/editLongtitude"
+			android:id="@+id/tv_View" android:layout_marginTop="10dp" />
+
+
+		<EditText android:id="@+id/Longtitude" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid8"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+
+
+		<Button android:id="@+id/saveButton" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI3Button1"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc"
+			android:layout_marginTop="10dp" />
+		<Button android:id="@+id/DeleteButton" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI3Button2"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc" />
+		<Button android:id="@+id/backButton" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI3Button3"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc" />
+
+
+
+	</LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,36 @@
+package LocationHandler;
+
+public class LocationDetatil {
+	
+	private double Latitude;
+	private double Longtitude;
+	private static LocationDetatil locationDtail;
+	
+	public static LocationDetatil getInstance(){
+		if (locationDtail!=null){
+			return locationDtail;
+		}else{
+			locationDtail= new LocationDetatil();
+			return locationDtail;
+		}
+	}
+	
+	public void setLatitude(double latitude){
+		this.Latitude=latitude;
+		
+	}
+	public void setLongtitude(double longtitude){
+		this.Longtitude= longtitude;
+	}
+	
+	public double getLatitude(){
+		return Latitude;
+	}
+	
+	public double getLongtitude(){
+		return Longtitude;
+	}
+	
+	
+
+}

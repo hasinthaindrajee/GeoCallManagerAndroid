@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:background="@drawable/call"
+		android:orientation="vertical">
+		
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/addProf"
+			android:id="@+id/tv_View2" android:layout_marginTop="20dp" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/ProfName"
+			android:id="@+id/tv_View" android:layout_marginTop="20dp" />
+
+
+		<EditText android:id="@+id/ProfName" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+		android:numeric="decimal"
+		android:layout_marginTop="20dp"
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid3"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/Lattitude"
+			android:id="@+id/tv_View" android:layout_marginTop="20dp" />
+
+
+		<EditText android:id="@+id/Lattitude" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+		android:layout_marginTop="20dp"
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid4"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/Longtitude"
+			android:id="@+id/tv_View" android:layout_marginTop="20dp" />
+
+
+		<EditText android:id="@+id/Longtitude" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+		android:layout_marginTop="20dp"
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/guid5"
+			android:id="@+id/tv_View" android:textSize="10dp" />
+
+
+
+		<Button android:id="@+id/saveButton" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI2button1"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc"
+			android:layout_marginTop="40dp" />
+		<Button android:id="@+id/backButton" android:layout_width="475px"
+			android:layout_height="wrap_content" android:text="@string/UI2button2"
+			android:layout_x="50px" android:layout_y="5550px" android:textColor="#ffcccccc" />
+
+
+
+	</LinearLayout>
+</ScrollView>

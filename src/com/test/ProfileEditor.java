@@ -1,0 +1,223 @@
+package com.test;
+
+import dataLayer.DatabaseHelper;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class ProfileEditor extends Activity {
+	private DatabaseHelper DBHelper;
+	private SQLiteDatabase db;
+
+	/*
+	 * overiding on create method(non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
+
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.profileeditor);
+		DBHelper = new DatabaseHelper(this);
+		db = DBHelper.getWritableDatabase();
+		addProfilesToDropdown();
+		onBackButtonAction(this);
+		onEditButtonAction();
+		onDeleteButton();
+		onSaveButton();
+	}
+
+	/**
+	 * Action on Back button finishes the current activity and retrun back to
+	 * the original activity
+	 */
+
+	public void onBackButtonAction(final Context context) {
+
+		final Button backButton = (Button) findViewById(R.id.backButton);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+				finish();
+				Intent i = new Intent(context, HelloNewActivity.class);
+				String name = "example";
+				i.putExtra("NAME", name);
+				startActivityForResult(i, 0);
+			}
+		});
+	}
+
+	/*
+	 * Action on Edit button input profile will be taken from the text fieldcheck
+	 * for the validity of the input get relevent profile from database and show
+	 * information on screen
+	 */
+	public void onEditButtonAction() {
+
+		final Button editButton = (Button) findViewById(R.id.Find);
+		editButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				EditText latti = (EditText) findViewById(R.id.Lattitude);
+				EditText longt = (EditText) findViewById(R.id.Longtitude);
+
+				AutoCompleteTextView profile_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_Prof_name);
+
+				// check for the validity of data
+
+				if (DBHelper.isThereString(DBHelper.cursorToStringArray(
+						DBHelper.getAllProfiles(), "Name"), profile_name
+						.getText().toString())) {
+					String Profdata[] = DBHelper.getData(profile_name.getText()
+							.toString());
+					if (Profdata != null) {
+
+						latti.setText(Profdata[1]);
+						longt.setText(Profdata[2]);
+					}
+				} else {
+					latti.setText("");
+					longt.setText("");
+					Toast.makeText(ProfileEditor.this,
+							"No Profile Found".toString(), Toast.LENGTH_SHORT)
+							.show();
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * add names of the profiles to drop down list of Profile editor
+	 */
+	public void addProfilesToDropdown() {
+		String[] Profiles = DBHelper.cursorToStringArray(
+				DBHelper.getAllProfiles(), "Name");
+
+		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+				R.layout.list_item, Profiles);
+		AutoCompleteTextView textView2 = (AutoCompleteTextView) findViewById(R.id.autocomplete_Prof_name);
+		textView2.setAdapter(adapter2);
+
+	}
+
+	/**
+	 * The action which performs on delete button The profile which is given
+	 * will be deleted
+	 */
+	public void onDeleteButton() {
+
+		final Button deleteButton = (Button) findViewById(R.id.DeleteButton);
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						ProfileEditor.this);
+				builder.setMessage("Are you sure you want to delete?")
+						.setCancelable(false)
+						.setPositiveButton("Yes",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										System.out
+												.println("Dialog box is working ok");
+										EditText latti = (EditText) findViewById(R.id.Lattitude);
+										EditText longt = (EditText) findViewById(R.id.Longtitude);
+
+										AutoCompleteTextView profile_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_Prof_name);
+
+										if (DBHelper.deleteProfile(profile_name
+												.getText().toString())) {
+											DBHelper.deleteFromContactTable(profile_name
+													.getText().toString());
+											// HelloNewActivity.updateAdapterOnDelete(profile_name.getText().toString());
+											latti.setText("");
+											longt.setText("");
+											profile_name.setText("");
+
+											Toast.makeText(
+													ProfileEditor.this,
+													"Successfully deleted"
+															.toString(),
+													Toast.LENGTH_SHORT).show();
+										} else {
+											Toast.makeText(
+													ProfileEditor.this,
+													"No such profile found"
+															.toString(),
+													Toast.LENGTH_SHORT).show();
+										}
+									}
+								})
+						.setNegativeButton("No",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+									}
+								}).show();
+
+			}
+		});
+
+	}
+
+	/**
+	 * Save the changes to the profile
+	 */
+
+	public void onSaveButton() {
+
+		final Button saveButton = (Button) findViewById(R.id.saveButton);
+
+		saveButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+				EditText latti = (EditText) findViewById(R.id.Lattitude);
+				EditText longt = (EditText) findViewById(R.id.Longtitude);
+				Double lattitudeDouble;
+				Double longtitudeDouble;
+
+				AutoCompleteTextView profile_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_Prof_name);
+
+				try {
+
+					lattitudeDouble = Double
+							.valueOf(latti.getText().toString());
+					longtitudeDouble = Double.valueOf(longt.getText()
+							.toString());
+					String profName = profile_name.getText().toString();
+					if (DBHelper.updateProfile(profName, lattitudeDouble,
+							longtitudeDouble)) {
+						Toast.makeText(ProfileEditor.this,
+								"Successfully Updated Profile".toString(),
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(ProfileEditor.this,
+								"No such proflie found".toString(),
+								Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (Exception e) {
+					Toast.makeText(
+							ProfileEditor.this,
+							"Invalied input in Lattitude or Longtitude"
+									.toString(), Toast.LENGTH_SHORT).show();
+				}
+				
+
+			}
+		});
+	}
+
+}
